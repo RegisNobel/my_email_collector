@@ -11,7 +11,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t email-collector .'
+                    sh 'sudo docker build -t email-collector .'
                 }
             }
         }
@@ -19,8 +19,8 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    sh 'docker tag email-collector:latest regisnobel/email-collector:latest'
-                    sh 'docker push regisnobel/email-collector:latest'
+                    sh 'sudo docker tag email-collector:latest regisnobel/email-collector:latest'
+                    sh 'sudo docker push regisnobel/email-collector:latest'
                 }
             }
         }
@@ -28,7 +28,7 @@ pipeline {
         stage('Deploy to EC2') {
             steps {
                 script {
-                    sh 'ssh ubuntu@54.88.240.233 "docker pull regisnobele/email-collector:latest && docker run -d -p 5001:5001 regisnobel/email-collector:latest"'
+                    sh 'ssh ubuntu@54.88.240.233 "sudo docker pull regisnobele/email-collector:latest && sudo docker run -d -p 5001:5001 regisnobel/email-collector:latest"'
                 }
             }
         }
