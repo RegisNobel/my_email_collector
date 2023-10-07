@@ -1,35 +1,33 @@
 pipeline {
-    agent any
+    agent any 
 
     stages {
         stage('Checkout Code') {
             steps {
-                checkout scm
+                // This will automatically pull the latest version of your code from GitHub
+                checkout scm 
+            }
+        }
+
+        stage('Clean Up Old Images') {
+            steps {
+                // This will remove all stopped containers and all dangling images
+                sh 'docker image prune -f'
+                sh 'docker container prune -f'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    sh 'sudo docker build -t email-collector .'
-                }
+                // Build a Docker image tagged as 'latest'
+                sh 'docker build -t email-collector:latest .'
             }
         }
 
-        stage('Push Docker Image') {
+        stage('Run Docker Container') {
             steps {
-                script {
-                    sh 'sudo docker tag email-collector:latest regisnobel/email-collector:latest'
-                    sh 'sudo docker push regisnobel/email-collector:latest'
-                }
-            }
-        }
-
-        stage('Deploy to EC2') {
-            steps {
-                script {
-                    sh 'ssh ubuntu@54.88.240.233 "sudo docker pull regisnobele/email-collector:latest && sudo docker run -d -p 5001:5001 regisnobel/email-collector:latest"'
-                }
+                // This will run a new container from the image built in the previous stage
+                sh 'docker run -d -p 5000:5000 email-collector:latest'
             }
         }
     }
