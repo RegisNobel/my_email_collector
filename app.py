@@ -17,4 +17,4 @@ def submit_email():
         f.write(email + '\n')
     return 'Thanks for submitting your email!'
 
-app.run(host='0.0.0.0', port=5001)
+app.run(host='0.0.0.0', port=5000)
