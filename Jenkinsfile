@@ -27,7 +27,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 // This will run a new container from the image built in the previous stage
-                sh 'docker run -d -p 5000:5000 email-collector:latest'
+                sh 'docker run -d -p 5001:5001 email-collector:latest'
             }
         }
     }
