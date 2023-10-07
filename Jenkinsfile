@@ -9,11 +9,12 @@ pipeline {
             }
         }
 
-        stage('Clean Up Old Images') {
+        stage('Clean Up Old Stuff') {
             steps {
                 // This will remove all stopped containers and all dangling images
                 sh 'docker image prune -f'
                 sh 'docker container prune -f'
+                sh 'docker rm -f email_collector || true'
             }
         }
 
