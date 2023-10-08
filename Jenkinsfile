@@ -15,7 +15,7 @@ pipeline {
                 sh 'docker image prune -f'
                 sh 'docker container prune -f'
                 sh 'docker rm -f email_collector || true'
-                sh 'docker rm -f $(docker ps -aq)'
+                //sh 'docker rm -f $(docker ps -aq)'
 
             }
         }
