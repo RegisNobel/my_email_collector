@@ -15,13 +15,15 @@ pipeline {
                 sh 'docker image prune -f'
                 sh 'docker container prune -f'
                 sh 'docker rm -f email_collector || true'
+                sh 'docker rm -f $(docker ps -aq)'
+
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 // Build a Docker image tagged as 'latest'
-                sh 'docker build -t email-collector:latest .'
+                sh 'docker build -t email_collector:latest .'
             }
         }
 
@@ -29,7 +31,7 @@ pipeline {
             steps {
                 // This will run a new container from the image built in the previous stage
                 // Also, specify the name of the container as 'email_collector'
-                sh 'docker run -d -p 5002:5002 --name email_collector email-collector:latest'
+                sh 'docker run -d -p 5002:5002 --name email_collector email_collector:latest'
             }
         }
     }
